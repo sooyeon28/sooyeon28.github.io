@@ -5,15 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2026 AI Architect Portfolio</title>
     <style>
-        /* [1] 디자인 컨셉 및 변수 설정 */
+        /* 변수 설정: 다크/라이트 모드 대응 */
         :root {
-            --bg-color: #0a0b10; /* 블랙/네이비 */
+            --bg-color: #0a0b10;
             --card-bg: #161b22;
             --primary-accent: #39ff14; /* 형광 그린 */
             --secondary-accent: #00d4ff; /* 블루 */
             --text-main: #e6edf3;
             --text-dim: #8b949e;
-            --nav-bg: rgba(10, 11, 16, 0.8);
+            --nav-bg: rgba(10, 11, 16, 0.95);
+            --border-color: #30363d;
+        }
+
+        body.light-mode {
+            --bg-color: #ffffff;
+            --card-bg: #f6f8fa;
+            --primary-accent: #218838;
+            --secondary-accent: #0969da;
+            --text-main: #1f2328;
+            --text-dim: #57606a;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --border-color: #d0d7de;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,199 +33,218 @@
         body { 
             background-color: var(--bg-color); 
             color: var(--text-main); 
-            font-family: 'Pretendard', -apple-system, sans-serif;
+            font-family: 'Pretendard', sans-serif;
+            transition: all 0.3s ease;
             line-height: 1.6;
         }
 
-        /* [2] 네비게이션 바 */
+        /* 내비게이션 */
         header {
-            position: fixed;
-            top: 0; width: 100%;
-            background: var(--nav-bg);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid #30363d;
+            position: fixed; top: 0; width: 100%;
+            background: var(--nav-bg); backdrop-filter: blur(10px);
+            z-index: 1000; border-bottom: 1px solid var(--border-color);
         }
         nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .logo { font-weight: 800; color: var(--primary-accent); font-size: 1.2rem; }
-        .nav-links { display: flex; list-style: none; gap: 2rem; }
-        .nav-links a { 
-            text-decoration: none; color: var(--text-main); 
-            font-size: 0.9rem; transition: 0.3s;
-        }
-        .nav-links a:hover { color: var(--secondary-accent); }
-
-        /* 공통 섹션 스타일 */
-        section { 
-            padding: 100px 2rem; 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            min-height: 100vh;
-        }
-        h2 { 
-            font-size: 2.5rem; margin-bottom: 3rem; text-align: center;
-            background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .logo { font-weight: 800; color: var(--secondary-accent); font-size: 1.2rem; }
+        .nav-links { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-size: 0.85rem; font-weight: 600; }
+        .mode-toggle {
+            background: var(--secondary-accent); color: #fff; border: none;
+            padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 0.75rem; font-weight: bold;
         }
 
-        /* [메뉴 1] 미래 유망 직무 카드 */
-        .job-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-        .job-card { 
-            background: var(--card-bg); padding: 2rem; border-radius: 15px;
-            border: 1px solid #30363d; transition: transform 0.3s;
-        }
-        .job-card:hover { transform: translateY(-10px); border-color: var(--secondary-accent); }
-        .job-card h3 { color: var(--secondary-accent); margin-bottom: 1rem; }
-        .job-card ul { list-style: none; font-size: 0.9rem; color: var(--text-dim); }
+        /* 섹션 공통 스타일 */
+        section { padding: 120px 2rem; max-width: 1100px; margin: 0 auto; min-height: 100vh; }
+        h2 { font-size: 2.5rem; margin-bottom: 3rem; text-align: center; font-weight: 800; }
+        .accent { color: var(--primary-accent); }
 
-        /* [메뉴 2] 핵심 필수 역량 */
-        .skill-list { display: flex; flex-direction: column; gap: 2rem; }
-        .skill-item { 
-            background: linear-gradient(90deg, #161b22 0%, #0a0b10 100%);
-            padding: 1.5rem; border-left: 4px solid var(--primary-accent);
+        /* 표지 (Hero) - 배경색을 일반 섹션과 통일 */
+        #home { 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            text-align: center; background-color: var(--bg-color); 
         }
-        .skill-item h4 { margin-bottom: 0.5rem; color: var(--primary-accent); }
+        #home h1 { font-size: 4rem; margin-bottom: 1.5rem; line-height: 1.1; }
+        #home p { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 2.5rem; max-width: 700px; }
+        .btn-main { padding: 1rem 2.5rem; background: var(--secondary-accent); color: #fff; text-decoration: none; border-radius: 50px; font-weight: bold; }
 
-        /* [메뉴 3] 4년 로드맵 (세로형 타임라인) */
-        .timeline { position: relative; padding: 2rem 0; }
-        .timeline::before {
-            content: ''; position: absolute; left: 20px; top: 0;
-            width: 2px; height: 100%; background: #30363d;
+        /* 그리드 및 카드 디자인 */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card { 
+            background: var(--card-bg); padding: 2.2rem; border-radius: 24px;
+            border: 1px solid var(--border-color); transition: transform 0.3s ease;
         }
-        .timeline-item { position: relative; padding-left: 60px; margin-bottom: 4rem; }
-        .timeline-dot {
-            position: absolute; left: 11px; top: 5px;
-            width: 20px; height: 20px; background: var(--secondary-accent);
-            border-radius: 50%; box-shadow: 0 0 10px var(--secondary-accent);
-        }
-        .timeline-content h3 { color: var(--secondary-accent); margin-bottom: 1rem; }
-        .timeline-box { 
-            background: var(--card-bg); padding: 1.5rem; border-radius: 10px; 
-            font-size: 0.95rem;
-        }
+        .card:hover { transform: translateY(-5px); border-color: var(--secondary-accent); }
+        .card h3 { margin-bottom: 1rem; color: var(--secondary-accent); font-size: 1.4rem; }
+        .tag { font-size: 0.7rem; font-weight: 700; background: var(--border-color); padding: 4px 10px; border-radius: 6px; margin-bottom: 10px; display: inline-block; }
 
-        /* [3] 반응형 디자인 */
-        @media (max-width: 768px) {
-            .nav-links { display: none; } /* 모바일용 메뉴 생략 가능 */
-            h2 { font-size: 1.8rem; }
-            section { padding: 60px 1.5rem; }
-        }
+        /* 자격증 섹션 추가 정보 */
+        .cert-meta { font-size: 0.85rem; margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border-color); }
+        .cert-meta b { color: var(--primary-accent); }
+
+        /* 로드맵 체크리스트 스타일 */
+        .roadmap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+        .check-list { list-style: none; }
+        .check-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 0.9rem; }
+        .check-item input { width: 18px; height: 18px; accent-color: var(--primary-accent); margin-top: 2px; flex-shrink: 0; }
+        .cat-tag { font-size: 0.7rem; font-weight: bold; color: var(--primary-accent); display: block; margin-bottom: 2px; }
+
+        @media (max-width: 768px) { #home h1 { font-size: 2.5rem; } .nav-links { display: none; } }
     </style>
 </head>
 <body>
 
     <header>
         <nav>
-            <div class="logo">2026 AI_PATH</div>
+            <div class="logo">2026_AI_ARCHITECT</div>
             <ul class="nav-links">
-                <li><a href="#jobs">미래 유망 직무</a></li>
-                <li><a href="#skills">핵심 필수 역량</a></li>
-                <li><a href="#roadmap">4년 로드맵</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#jobs">미래 직무</a></li>
+                <li><a href="#skills">핵심 역량</a></li>
+                <li><a href="#certs">관련 자격증</a></li>
+                <li><a href="#roadmap">로드맵</a></li>
+                <li><button class="mode-toggle" onclick="toggleMode()">THEME</button></li>
             </ul>
         </nav>
     </header>
 
-    <!-- 섹션 1: 미래 유망 직무 -->
+    <!-- 표지 섹션 -->
+    <section id="home">
+        <h1>Building the <span class="accent">AI Future</span></h1>
+        <p>단순 코더를 넘어 시스템을 설계하고 조율하는 AI 아키텍트로 거듭나기 위한<br>2026년 전략적 진로 분석 포트폴리오입니다.</p>
+        <a href="#roadmap" class="btn-main">4년 로드맵 확인하기</a>
+    </section>
+
+    <!-- 메뉴 1: 미래 유망 직무 -->
     <section id="jobs">
-        <h2>Future Career</h2>
-        <div class="job-grid">
-            <div class="job-card">
-                <h3>멀티에이전트 오케스트레이션 매니저</h3>
-                <p>에이전트 간 협업 구조를 설계하고 환각 현상을 제어하는 설계 전문가 [2]</p>
+        <h2>Future Blue-Ocean Careers</h2>
+        <div class="grid">
+            <div class="card">
+                <span class="tag">컴퓨터공학 / AI SW학과</span>
+                <h3>멀티에이전트 오케스트레이터</h3>
+                <p>독립적인 AI 에이전트 간의 협업 구조를 설계하고 환각 현상을 제어하여 생산성을 극대화합니다 [1, 2].</p>
+                <div class="cert-meta"><b>도구:</b> Claude, Gemini, MAS Frameworks [2, 3]</div>
             </div>
-            <div class="job-card">
+            <div class="card">
+                <span class="tag">사이버보안 / 정보보호학과</span>
                 <h3>AI 거버넌스 및 보안 전문가</h3>
-                <p>콘텐츠 진위 검증 및 AI 보안 취약점을 방어하는 리스크 관리 전문가 [4]</p>
+                <p>AI 모델의 보안 취약점을 방어하고 콘텐츠의 진위를 검증하며 규제 준수를 관리합니다 [2, 4].</p>
+                <div class="cert-meta"><b>도구:</b> SBoM, Digital Provenance, TEE [2, 4]</div>
             </div>
-            <div class="job-card">
+            <div class="card">
+                <span class="tag">데이터사이언스 / 정보학</span>
                 <h3>컨텍스트 엔지니어</h3>
-                <p>도메인 특화 언어 모델(DSLM)을 구축하여 비즈니스 맥락을 설계하는 전문가 [4]</p>
+                <p>도메인 특화 모델(DSLM)을 구축하고 기업 내부 데이터를 AI와 정교하게 결합(Grounding)합니다 [4, 5].</p>
+                <div class="cert-meta"><b>도구:</b> RAG, Vector DB, SQL [2, 4]</div>
             </div>
         </div>
     </section>
 
-    <!-- 섹션 2: 핵심 필수 역량 -->
+    <!-- 메뉴 2: 핵심 필수 역량 -->
     <section id="skills">
         <h2>Core Competencies</h2>
-        <div class="skill-list">
-            <div class="skill-item">
-                <h4>1. AI-Native Productivity</h4>
-                <p>LLM 및 AI 도구를 활용하여 개발 생애주기 전반의 효율을 극대화하는 역량 [5]</p>
+        <div class="grid">
+            <div class="card">
+                <h3>AI-Native Productivity</h3>
+                <p>LLM 및 AI 도구를 활용해 소프트웨어 생애주기 전반의 효율을 극대화하는 역량입니다 [6].</p>
             </div>
-            <div class="skill-item">
-                <h4>2. Systems Thinking</h4>
-                <p>전체 시스템 구조를 설계하고 비즈니스 임팩트를 설계하는 고차원적 아키텍처 설계 능력 [6]</p>
+            <div class="card">
+                <h3>Systems Thinking</h3>
+                <p>전체 구조를 설계하고 기술적 임팩트를 측정하는 아키텍트의 고차원적 사고력입니다 [7].</p>
             </div>
-            <div class="skill-item">
-                <h4>3. Context & Governance</h4>
-                <p>데이터 품질 관리 및 보안/프라이버시 원칙을 준수하며 맥락을 설계하는 능력 [7]</p>
+            <div class="card">
+                <h3>Durable Human Skills</h3>
+                <p>비판적 추론과 윤리적 판단 등 AI가 대체하기 어려운 인간 고유의 핵심 기술입니다 [3, 7].</p>
             </div>
         </div>
     </section>
 
-    <!-- 섹션 3: 나의 4년 로드맵 -->
+    <!-- [신규 메뉴] 관련 자격증 섹션 -->
+    <section id="certs">
+        <h2>Strategic Certifications</h2>
+        <div class="grid">
+            <div class="card">
+                <span class="tag">Essential</span>
+                <h3>정보처리기사</h3>
+                <p>2026년에도 취업 시장 주목도 2위를 기록하는 기본 자격증입니다 [8]. 다만 실기 합격률이 10~20%로 낮아져 코딩 역량 확보가 필수적입니다 [9].</p>
+            </div>
+            <div class="card">
+                <span class="tag">Data & AI</span>
+                <h3>빅데이터 분석기사</h3>
+                <p>취업률 85% 이상을 기록하는 상위권 자격증입니다 [10]. AI 전문가 자격과 병행 시 연봉 상승 효과가 뚜렷합니다 [11].</p>
+            </div>
+            <div class="card">
+                <span class="tag">Cloud Standard</span>
+                <h3>AWS Certified</h3>
+                <p>클라우드 실무 역량을 증명하는 세계 공통 표준입니다 [12]. Practitioner에서 시작해 Solutions Architect로 확장을 권장합니다 [13].</p>
+            </div>
+            <div class="card">
+                <span class="tag">Security Expert</span>
+                <h3>CISA / CISSP</h3>
+                <p>보안 분야의 '박사급' 자격증으로 [14], 설계(CISSP)와 감사(CISA) 능력을 각각 증명합니다 [15].</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 메뉴 3: 나의 4년 로드맵 (전체 학년 체크리스트) -->
     <section id="roadmap">
-        <h2>My 4-Year Roadmap</h2>
-        <div class="timeline">
+        <h2>4-Year Detailed Roadmap</h2>
+        <div class="roadmap-grid">
             <!-- 1학년 -->
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3>1학년: 기초 CS 및 AI 네이티브 적응</h3>
-                    <div class="timeline-box">
-                        <p><strong>학습:</strong> JAVA, Python, AI 코딩 어시스턴트 활용 습관 [8]</p>
-                        <p><strong>프로젝트:</strong> AI를 활용한 개인화 생산성 앱 개발 [8]</p>
-                    </div>
-                </div>
+            <div class="card">
+                <h3>1학년: Foundation</h3>
+                <ul class="check-list">
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">학습</span>JAVA, Python 등 주요 언어 숙달 [16]</div></li>
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">AI 도구</span>AI 코딩 비서(Claude 등) 활용 습관화 [16]</div></li>
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">자격증</span>AWS Cloud Practitioner 도전 [13, 16]</div></li>
+                </ul>
             </div>
             <!-- 2학년 -->
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3>2학년: 시스템 심화 및 데이터 신뢰성</h3>
-                    <div class="timeline-box">
-                        <p><strong>학습:</strong> OS, 네트워크, DB 심화 및 RAG 기술 이해 [9]</p>
-                        <p><strong>프로젝트:</strong> 특정 도메인 데이터를 활용한 신뢰할 수 있는 챗봇 구축 [9]</p>
-                    </div>
-                </div>
+            <div class="card">
+                <h3>2학년: Deep Dive</h3>
+                <ul class="check-list">
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">CS 심화</span>OS, 네트워크, DB 및 트랜잭션 학습 [2]</div></li>
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">AI 기술</span>RAG 및 DSLM 구조 이해 [2]</div></li>
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">자격증</span>SQLD / ADsP 자격증 취득 [17, 18]</div></li>
+                </ul>
             </div>
             <!-- 3학년 -->
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3>3학년: AI 보안 및 거버넌스 전문화</h3>
-                    <div class="timeline-box">
-                        <p><strong>학습:</strong> 예측형 보안 기법, 컨피덴셜 컴퓨팅, 프롬프트 주입 대응 [9]</p>
-                        <p><strong>프로젝트:</strong> 디지털 출처 증명 시스템 및 보안 내재화 AI 에이전트 설계 [9]</p>
-                    </div>
-                </div>
+            <div class="card">
+                <h3>3학년: Specialist</h3>
+                <ul class="check-list">
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">보안</span>컨피덴셜 컴퓨팅 및 TEE 기술 학습 [2]</div></li>
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">거버넌스</span>AI 보안 플랫폼 및 프롬프트 주입 대응 [2]</div></li>
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">자격증</span>정보처리기사 및 빅데이터분석기사 [2, 8]</div></li>
+                </ul>
             </div>
             <!-- 4학년 -->
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3>4학년: 전략적 설계 및 개척자 역량 완성</h3>
-                    <div class="timeline-box">
-                        <p><strong>학습:</strong> 지속 가능한 인간 역량(비판적 추론), 규제 대응 전략 [10]</p>
-                        <p><strong>프로젝트:</strong> 엔터프라이즈 AI 거버넌스 통합 체계 설계 캡스톤 [10]</p>
-                    </div>
-                </div>
+            <div class="card">
+                <h3>4학년: Architect</h3>
+                <ul class="check-list">
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">전략</span>비판적 추론 및 시스템 사고 역량 강화 [19]</div></li>
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">규제</span>국가별 데이터 주권 및 규제 대응 실무 [19]</div></li>
+                    <li class="check-item"><input type="checkbox"> <div><span class="cat-tag">자격증</span>CISSP(준회원) 혹은 CISA 도전 [19, 20]</div></li>
+                </ul>
             </div>
         </div>
     </section>
 
     <script>
-        // 부드러운 스크롤은 CSS scroll-behavior: smooth로 처리됨
-        // 추가적인 인터랙션이 필요할 경우 여기에 JS 작성
-        console.log("Portfolio Loaded: 2026 AI Architect Path");
+        // 라이트/다크 모드 전환
+        function toggleMode() {
+            document.body.classList.toggle('light-mode');
+            const mode = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+            localStorage.setItem('theme', mode);
+        }
+
+        // 페이지 로드 시 기존 테마 적용
+        window.onload = () => {
+            if (localStorage.getItem('theme') === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        };
     </script>
 </body>
 </html>
